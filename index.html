@@ -14,6 +14,14 @@ import {
   Truck 
 } from 'lucide-react';
 
+/**
+ * NOTE: For this to render correctly on GitHub Pages or local dev, 
+ * ensure Tailwind CSS is installed in your project.
+ * If you are just testing this file in a simple environment, 
+ * adding the following script to your index.html head is required:
+ * <script src="https://cdn.tailwindcss.com"></script>
+ */
+
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -32,12 +40,16 @@ const App = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] text-slate-200 font-sans selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#0A0A0B] text-slate-200 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
+      {/* STYLING FIX: The "White Background" issue on GitHub happens if Tailwind isn't initialized.
+          This layout uses explicit hex codes and Tailwind utility classes.
+      */}
+      
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0A0A0B]/80 backdrop-blur-md border-b border-white/10 py-3' : 'bg-transparent py-6'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-500 ${scrolled ? 'bg-[#0A0A0B]/90 backdrop-blur-xl border-b border-white/10 py-3' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center">
+          <div className="flex items-center gap-2 group cursor-pointer">
+            <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform">
               <Server className="text-black w-6 h-6" />
             </div>
             <span className="text-xl font-bold tracking-tighter text-white">YESTEK<span className="text-cyan-500">SOLUTIONS</span></span>
@@ -47,105 +59,118 @@ const App = () => {
           <div className="hidden md:flex items-center gap-8 text-sm font-medium">
             <a href="#inventory" className="hover:text-cyan-400 transition-colors">Inventory</a>
             <a href="#about" className="hover:text-cyan-400 transition-colors">About Us</a>
-            <a href="#contact" className="px-5 py-2 bg-white text-black rounded-full hover:bg-cyan-400 transition-all font-bold">Request Quote</a>
+            <a href="#contact" className="px-6 py-2.5 bg-cyan-500 text-black rounded-full hover:bg-cyan-400 transition-all font-bold shadow-lg shadow-cyan-500/20">
+              Request Quote
+            </a>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X /> : <Menu />}
+          <button className="md:hidden text-white p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </nav>
 
       {/* Mobile Sidebar */}
-      {isMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#0A0A0B] flex flex-col items-center justify-center gap-8 text-2xl font-bold md:hidden">
-          <a href="#inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
-          <a href="#about" onClick={() => setIsMenuOpen(false)}>About Us</a>
-          <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-cyan-400">Contact</a>
-        </div>
-      )}
+      <div className={`fixed inset-0 z-40 bg-[#0A0A0B] flex flex-col items-center justify-center gap-8 text-2xl font-bold transition-transform duration-500 md:hidden ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
+        <a href="#inventory" className="hover:text-cyan-400" onClick={() => setIsMenuOpen(false)}>Inventory</a>
+        <a href="#about" className="hover:text-cyan-400" onClick={() => setIsMenuOpen(false)}>About Us</a>
+        <a href="#contact" className="text-cyan-400" onClick={() => setIsMenuOpen(false)}>Contact</a>
+        <button className="mt-4 px-8 py-3 bg-white text-black rounded-full text-lg" onClick={() => setIsMenuOpen(false)}>Close Menu</button>
+      </div>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-20">
-            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/20 blur-[120px] rounded-full"></div>
-            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full"></div>
+      <section className="relative pt-32 pb-20 md:pt-56 md:pb-40 px-6 overflow-hidden">
+        {/* Animated Background Orbs */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
+            <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-cyan-500/10 blur-[120px] rounded-full animate-pulse"></div>
+            <div className="absolute bottom-[10%] right-[-5%] w-[40%] h-[40%] bg-blue-600/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
         
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold mb-6 text-cyan-400">
+        <div className="max-w-7xl mx-auto relative z-10 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-bold mb-8 text-cyan-400 tracking-widest uppercase">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
             </span>
-            Wholesale IT Equipment Specialists
+            Wholesale IT Logistics & Hardware
           </div>
-          <h1 className="text-5xl md:text-8xl font-black tracking-tight text-white mb-6 leading-[0.9]">
-            YOUR BULK <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">HARDWARE PARTNER.</span>
+          <h1 className="text-5xl md:text-[7rem] font-black tracking-tighter text-white mb-8 leading-[0.85]">
+            DOMINATE THE <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 bg-[length:200%_auto] animate-gradient-x">HARDWARE MARKET.</span>
           </h1>
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mb-10 leading-relaxed">
-            Wholesale pre-owned and refurbished IT equipment. We supply high-quality laptops, desktops, and servers to businesses across Canada and beyond.
+          <p className="text-lg md:text-2xl text-slate-400 max-w-3xl mb-12 leading-relaxed font-light">
+            Premium refurbished enterprise hardware at scale. Based in Mississauga, serving high-volume clients worldwide with tested, certified, and reliable technology.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <button className="px-8 py-4 bg-cyan-500 text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:scale-105 transition-transform">
-              View Current Inventory <ChevronRight className="w-5 h-5" />
+          <div className="flex flex-col sm:flex-row gap-5 justify-center md:justify-start">
+            <button className="px-10 py-5 bg-cyan-500 text-black font-black text-lg rounded-2xl flex items-center justify-center gap-2 hover:bg-cyan-400 hover:-translate-y-1 transition-all shadow-2xl shadow-cyan-500/20">
+              Browse Inventory <ChevronRight className="w-6 h-6" />
             </button>
-            <button className="px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 font-bold rounded-xl transition-all">
+            <button className="px-10 py-5 bg-white/5 border border-white/10 hover:bg-white/10 font-bold text-lg rounded-2xl transition-all backdrop-blur-sm">
               Contact Sales
             </button>
           </div>
         </div>
       </section>
 
-      {/* Stats/Features */}
-      <section className="py-12 border-y border-white/5 bg-white/[0.02]">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <div className="p-3 bg-cyan-500/10 rounded-lg text-cyan-400"><ShieldCheck /></div>
+      {/* Trust Bar */}
+      <section className="py-16 border-y border-white/5 bg-white/[0.01]">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="flex flex-col items-center md:items-start gap-4 p-6 hover:bg-white/[0.02] rounded-2xl transition-colors">
+            <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 border border-cyan-500/20"><ShieldCheck /></div>
             <div>
-              <h3 className="text-white font-bold">Tested & Certified</h3>
-              <p className="text-sm text-slate-500">Every unit undergoes rigorous QA</p>
+              <h3 className="text-white text-xl font-bold mb-1 text-center md:text-left">Tested & Certified</h3>
+              <p className="text-slate-500 text-center md:text-left">Multi-point QA inspection on every single motherboard, screen, and drive.</p>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <div className="p-3 bg-cyan-500/10 rounded-lg text-cyan-400"><Truck /></div>
+          <div className="flex flex-col items-center md:items-start gap-4 p-6 hover:bg-white/[0.02] rounded-2xl transition-colors">
+            <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 border border-cyan-500/20"><Truck /></div>
             <div>
-              <h3 className="text-white font-bold">Nationwide Shipping</h3>
-              <p className="text-sm text-slate-500">Fast logistics from Mississauga, ON</p>
+              <h3 className="text-white text-xl font-bold mb-1 text-center md:text-left">Global Logistics</h3>
+              <p className="text-slate-500 text-center md:text-left">Strategically located in Mississauga for rapid shipping across North America.</p>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <div className="p-3 bg-cyan-500/10 rounded-lg text-cyan-400"><TrendingUp /></div>
+          <div className="flex flex-col items-center md:items-start gap-4 p-6 hover:bg-white/[0.02] rounded-2xl transition-colors">
+            <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-400 border border-cyan-500/20"><TrendingUp /></div>
             <div>
-              <h3 className="text-white font-bold">Volume Pricing</h3>
-              <p className="text-sm text-slate-500">Competitive rates for bulk orders</p>
+              <h3 className="text-white text-xl font-bold mb-1 text-center md:text-left">Competitive Edge</h3>
+              <p className="text-slate-500 text-center md:text-left">Direct-from-source wholesale pricing ensuring the best ROI for your business.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Category Grid */}
-      <section id="inventory" className="py-24 px-6 bg-[#0A0A0B]">
+      <section id="inventory" className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Core Inventory</h2>
-            <div className="w-20 h-1.5 bg-cyan-500 rounded-full"></div>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">Our Fleet</h2>
+              <p className="text-slate-400 text-xl">We maintain consistent stock levels of the industry's most requested hardware configurations.</p>
+            </div>
+            <div className="h-0.5 flex-1 bg-white/5 mx-12 hidden lg:block mb-8"></div>
+            <div className="bg-cyan-500/10 text-cyan-400 px-6 py-3 rounded-full border border-cyan-500/20 font-bold text-sm mb-4">
+              UPDATED: JAN 2026
+            </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {categories.map((cat, idx) => (
-              <div key={idx} className="group p-8 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-cyan-500/50 transition-all hover:bg-white/[0.06] cursor-pointer">
-                <div className="mb-6 text-cyan-500 group-hover:scale-110 transition-transform origin-left">
-                  {cat.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">{cat.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  {cat.desc}
-                </p>
-                <div className="flex items-center text-xs font-bold text-cyan-400 gap-1 group-hover:gap-2 transition-all">
-                  BROWSE STOCK <ChevronRight className="w-4 h-4" />
+              <div key={idx} className="group relative p-10 rounded-[2.5rem] bg-white/[0.02] border border-white/5 hover:border-cyan-500/40 transition-all duration-500 hover:bg-white/[0.05] overflow-hidden">
+                {/* Decorative background element */}
+                <div className="absolute -right-4 -top-4 w-24 h-24 bg-cyan-500/5 rounded-full group-hover:scale-[3] transition-transform duration-700"></div>
+                
+                <div className="relative z-10">
+                  <div className="mb-8 p-4 bg-black/40 inline-block rounded-2xl text-cyan-500 group-hover:scale-110 group-hover:text-white transition-all">
+                    {cat.icon}
+                  </div>
+                  <h3 className="text-2xl font-black text-white mb-3">{cat.title}</h3>
+                  <p className="text-slate-400 text-base leading-relaxed mb-8">
+                    {cat.desc}
+                  </p>
+                  <div className="flex items-center text-xs font-black tracking-widest text-cyan-400 gap-2 group-hover:gap-4 transition-all uppercase">
+                    Check Availability <ChevronRight className="w-4 h-4" />
+                  </div>
                 </div>
               </div>
             ))}
@@ -153,40 +178,89 @@ const App = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 relative overflow-hidden">
-        <div className="max-w-4xl mx-auto bg-gradient-to-b from-white/[0.08] to-transparent p-12 rounded-3xl border border-white/10 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">Ready to scale your IT fleet?</h2>
-          <p className="text-slate-400 mb-10 text-lg">
-            Whether you need 50 laptops or an entire server rack, we have the stock and the pricing to make it happen.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-10">
-            <div className="flex items-center gap-4 p-4 bg-black/40 rounded-xl border border-white/5">
-              <Mail className="text-cyan-400" />
+      {/* Contact CTA */}
+      <section id="contact" className="py-32 px-6">
+        <div className="max-w-6xl mx-auto relative group">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 blur-[80px] opacity-10 group-hover:opacity-20 transition-opacity"></div>
+          
+          <div className="relative bg-[#0F0F11] border border-white/10 rounded-[3rem] p-8 md:p-20 overflow-hidden">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div>
-                <p className="text-xs text-slate-500 uppercase font-bold">Email Us</p>
-                <p className="text-white font-medium">sales@yesteksolutions.ca</p>
+                <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">START YOUR <br/><span className="text-cyan-500">BULK ORDER</span> TODAY.</h2>
+                <p className="text-slate-400 text-xl mb-12 leading-relaxed font-light">
+                  Our sales specialists are ready to provide custom quotes for volume orders and international shipping logistics.
+                </p>
+                <div className="space-y-6">
+                  <div className="flex items-center gap-6 group/item">
+                    <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500 group-hover/item:text-black transition-all">
+                      <Mail size={24} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Direct Sales</p>
+                      <p className="text-xl text-white font-bold tracking-tight">sales@yesteksolutions.ca</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-6 group/item">
+                    <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500 group-hover/item:text-black transition-all">
+                      <MapPin size={24} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Headquarters</p>
+                      <p className="text-xl text-white font-bold tracking-tight">Mississauga, ON Canada</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-4 p-4 bg-black/40 rounded-xl border border-white/5">
-              <MapPin className="text-cyan-400" />
-              <div>
-                <p className="text-xs text-slate-500 uppercase font-bold">Location</p>
-                <p className="text-white font-medium">Mississauga, ON Canada</p>
+
+              <div className="bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
+                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Name" className="bg-black/40 border border-white/10 p-4 rounded-xl focus:border-cyan-500 outline-none transition-all text-white" />
+                    <input type="email" placeholder="Email" className="bg-black/40 border border-white/10 p-4 rounded-xl focus:border-cyan-500 outline-none transition-all text-white" />
+                  </div>
+                  <input type="text" placeholder="Subject (e.g. 50x Dell Laptops)" className="w-full bg-black/40 border border-white/10 p-4 rounded-xl focus:border-cyan-500 outline-none transition-all text-white" />
+                  <textarea placeholder="Tell us about your requirements..." rows="4" className="w-full bg-black/40 border border-white/10 p-4 rounded-xl focus:border-cyan-500 outline-none transition-all text-white"></textarea>
+                  <button className="w-full py-5 bg-cyan-500 text-black font-black rounded-xl hover:bg-cyan-400 transition-all shadow-xl shadow-cyan-500/20">
+                    SUBMIT QUOTE REQUEST
+                  </button>
+                </form>
               </div>
             </div>
           </div>
-          <button className="w-full py-5 bg-white text-black text-lg font-black rounded-2xl hover:bg-cyan-400 transition-colors shadow-xl shadow-cyan-500/10">
-            SEND INQUIRY NOW
-          </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/5 text-center text-slate-600 text-sm">
-        <p>© {new Date().getFullYear()} Yestek Solutions Inc. All rights reserved.</p>
-        <p className="mt-2">Quality Wholesale IT Equipment in Canada.</p>
+      <footer className="py-20 border-t border-white/5 text-center text-slate-500">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-center gap-2 mb-8 grayscale opacity-50">
+             <div className="w-6 h-6 bg-cyan-500 rounded flex items-center justify-center">
+              <Server className="text-black w-4 h-4" />
+            </div>
+            <span className="text-lg font-bold tracking-tighter text-white uppercase">YESTEK SOLUTIONS</span>
+          </div>
+          <p className="text-sm max-w-md mx-auto mb-8">
+            The premier choice for business-ready IT hardware in Ontario. Refurbished. Reliable. Ready to deploy.
+          </p>
+          <div className="flex justify-center gap-8 mb-8 text-xs font-bold uppercase tracking-widest">
+            <a href="#" className="hover:text-cyan-500">Privacy Policy</a>
+            <a href="#" className="hover:text-cyan-500">Terms of Service</a>
+            <a href="#" className="hover:text-cyan-500">Sitemap</a>
+          </div>
+          <p className="text-xs">© {new Date().getFullYear()} Yestek Solutions Inc. All rights reserved.</p>
+        </div>
       </footer>
+
+      <style>{`
+        @keyframes gradient-x {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-gradient-x {
+          animation: gradient-x 15s ease infinite;
+        }
+      `}</style>
     </div>
   );
 };
