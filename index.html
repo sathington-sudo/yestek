@@ -1,0 +1,194 @@
+import React, { useState, useEffect } from 'react';
+import { 
+  Laptop, 
+  Server, 
+  Monitor, 
+  Cpu, 
+  Mail, 
+  MapPin, 
+  Menu, 
+  X, 
+  ChevronRight, 
+  ShieldCheck, 
+  TrendingUp, 
+  Truck 
+} from 'lucide-react';
+
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const categories = [
+    { title: "Laptops", icon: <Laptop className="w-8 h-8" />, desc: "Business-grade Dell, HP, & Lenovo units." },
+    { title: "Desktops", icon: <Cpu className="w-8 h-8" />, desc: "High-performance workstations for any scale." },
+    { title: "Monitors", icon: <Monitor className="w-8 h-8" />, desc: "Bulk displays from 22\" to 34\" ultra-wide." },
+    { title: "Servers", icon: <Server className="w-8 h-8" />, desc: "Enterprise networking & storage solutions." },
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#0A0A0B] text-slate-200 font-sans selection:bg-cyan-500/30">
+      {/* Navigation */}
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#0A0A0B]/80 backdrop-blur-md border-b border-white/10 py-3' : 'bg-transparent py-6'}`}>
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center">
+              <Server className="text-black w-6 h-6" />
+            </div>
+            <span className="text-xl font-bold tracking-tighter text-white">YESTEK<span className="text-cyan-500">SOLUTIONS</span></span>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="#inventory" className="hover:text-cyan-400 transition-colors">Inventory</a>
+            <a href="#about" className="hover:text-cyan-400 transition-colors">About Us</a>
+            <a href="#contact" className="px-5 py-2 bg-white text-black rounded-full hover:bg-cyan-400 transition-all font-bold">Request Quote</a>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Sidebar */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-[#0A0A0B] flex flex-col items-center justify-center gap-8 text-2xl font-bold md:hidden">
+          <a href="#inventory" onClick={() => setIsMenuOpen(false)}>Inventory</a>
+          <a href="#about" onClick={() => setIsMenuOpen(false)}>About Us</a>
+          <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-cyan-400">Contact</a>
+        </div>
+      )}
+
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-20">
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/20 blur-[120px] rounded-full"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold mb-6 text-cyan-400">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            </span>
+            Wholesale IT Equipment Specialists
+          </div>
+          <h1 className="text-5xl md:text-8xl font-black tracking-tight text-white mb-6 leading-[0.9]">
+            YOUR BULK <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">HARDWARE PARTNER.</span>
+          </h1>
+          <p className="text-lg md:text-xl text-slate-400 max-w-2xl mb-10 leading-relaxed">
+            Wholesale pre-owned and refurbished IT equipment. We supply high-quality laptops, desktops, and servers to businesses across Canada and beyond.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button className="px-8 py-4 bg-cyan-500 text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:scale-105 transition-transform">
+              View Current Inventory <ChevronRight className="w-5 h-5" />
+            </button>
+            <button className="px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 font-bold rounded-xl transition-all">
+              Contact Sales
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats/Features */}
+      <section className="py-12 border-y border-white/5 bg-white/[0.02]">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="p-3 bg-cyan-500/10 rounded-lg text-cyan-400"><ShieldCheck /></div>
+            <div>
+              <h3 className="text-white font-bold">Tested & Certified</h3>
+              <p className="text-sm text-slate-500">Every unit undergoes rigorous QA</p>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="p-3 bg-cyan-500/10 rounded-lg text-cyan-400"><Truck /></div>
+            <div>
+              <h3 className="text-white font-bold">Nationwide Shipping</h3>
+              <p className="text-sm text-slate-500">Fast logistics from Mississauga, ON</p>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="p-3 bg-cyan-500/10 rounded-lg text-cyan-400"><TrendingUp /></div>
+            <div>
+              <h3 className="text-white font-bold">Volume Pricing</h3>
+              <p className="text-sm text-slate-500">Competitive rates for bulk orders</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Category Grid */}
+      <section id="inventory" className="py-24 px-6 bg-[#0A0A0B]">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Core Inventory</h2>
+            <div className="w-20 h-1.5 bg-cyan-500 rounded-full"></div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {categories.map((cat, idx) => (
+              <div key={idx} className="group p-8 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-cyan-500/50 transition-all hover:bg-white/[0.06] cursor-pointer">
+                <div className="mb-6 text-cyan-500 group-hover:scale-110 transition-transform origin-left">
+                  {cat.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">{cat.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  {cat.desc}
+                </p>
+                <div className="flex items-center text-xs font-bold text-cyan-400 gap-1 group-hover:gap-2 transition-all">
+                  BROWSE STOCK <ChevronRight className="w-4 h-4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-24 px-6 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto bg-gradient-to-b from-white/[0.08] to-transparent p-12 rounded-3xl border border-white/10 text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">Ready to scale your IT fleet?</h2>
+          <p className="text-slate-400 mb-10 text-lg">
+            Whether you need 50 laptops or an entire server rack, we have the stock and the pricing to make it happen.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-10">
+            <div className="flex items-center gap-4 p-4 bg-black/40 rounded-xl border border-white/5">
+              <Mail className="text-cyan-400" />
+              <div>
+                <p className="text-xs text-slate-500 uppercase font-bold">Email Us</p>
+                <p className="text-white font-medium">sales@yesteksolutions.ca</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 p-4 bg-black/40 rounded-xl border border-white/5">
+              <MapPin className="text-cyan-400" />
+              <div>
+                <p className="text-xs text-slate-500 uppercase font-bold">Location</p>
+                <p className="text-white font-medium">Mississauga, ON Canada</p>
+              </div>
+            </div>
+          </div>
+          <button className="w-full py-5 bg-white text-black text-lg font-black rounded-2xl hover:bg-cyan-400 transition-colors shadow-xl shadow-cyan-500/10">
+            SEND INQUIRY NOW
+          </button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-12 border-t border-white/5 text-center text-slate-600 text-sm">
+        <p>© {new Date().getFullYear()} Yestek Solutions Inc. All rights reserved.</p>
+        <p className="mt-2">Quality Wholesale IT Equipment in Canada.</p>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
